@@ -14,8 +14,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "application_user")
+@JsonIgnoreProperties(value = { "roles" })
 public class ApplicationUser extends BaseDAO implements Serializable {
 
 	/**
@@ -115,6 +118,14 @@ public class ApplicationUser extends BaseDAO implements Serializable {
 
 	public void setIsLocked(int isLocked) {
 		this.isLocked = isLocked;
+	}
+
+	public Set<ApplicationRole> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<ApplicationRole> roles) {
+		this.roles = roles;
 	}
 
 }
