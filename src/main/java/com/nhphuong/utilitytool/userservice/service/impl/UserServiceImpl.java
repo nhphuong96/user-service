@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nhphuong.utilitytool.userservice.exception.EntityNotFoundException;
 import com.nhphuong.utilitytool.userservice.exception.ValidationException;
 import com.nhphuong.utilitytool.userservice.model.ApplicationUser;
 import com.nhphuong.utilitytool.userservice.repository.ApplicationUserRepository;
@@ -16,11 +17,14 @@ public class UserServiceImpl implements UserService {
 	private ApplicationUserRepository applUserRepo;
 	
 	@Override
-	public ApplicationUser getUser(String username) throws ValidationException {
+	public ApplicationUser getUser(String username) throws ValidationException, EntityNotFoundException {
 		if (StringUtils.isBlank(username)) {
 			throw new ValidationException("Username must not be null or empty.");
 		}
 		ApplicationUser user = applUserRepo.findByUsername(username);
+		if (user == null) {
+			throw new EntityNotFoundException("User not found.");
+		}
 		return user;
 	}
 

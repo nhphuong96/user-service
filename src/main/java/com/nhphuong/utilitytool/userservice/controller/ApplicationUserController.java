@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nhphuong.utilitytool.userservice.exception.EntityNotFoundException;
 import com.nhphuong.utilitytool.userservice.exception.ValidationException;
 import com.nhphuong.utilitytool.userservice.model.ApplicationUser;
 import com.nhphuong.utilitytool.userservice.model.ResponseWrapper;
@@ -23,7 +24,7 @@ public class ApplicationUserController {
 		try {
 			ApplicationUser user = userService.getUser(username);
 			return new ResponseWrapper<ApplicationUser>(user, username, true);
-		} catch (ValidationException e) {
+		} catch (ValidationException | EntityNotFoundException e) {
 			return new ResponseWrapper<ApplicationUser>(null, e.getMessage(), false);
 		}
 	}
