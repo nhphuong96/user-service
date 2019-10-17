@@ -1,27 +1,41 @@
 package com.nhphuong.utilitytool.userservice.model;
 
-import java.sql.Date;
+
+import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @MappedSuperclass
-public class BaseDAO {
+@EntityListeners(AuditingEntityListener.class)
+public class Auditable<U> {
 
-	@Column(name = "created_date", insertable = false, updatable = false)
+	@Column(name = "created_date")
 	@CreatedDate
 	private Date createdDate;
+	
+	@Column(name = "created_by")
+	@CreatedBy
+	private U createdBy;
 
-	@Column(name = "last_modified_date", insertable = false, updatable = false)
+	@Column(name = "last_modified_date")
 	@LastModifiedDate
 	private Date lastModifiedDate;
+	
+	@Column(name = "last_modified_by")
+	@LastModifiedBy
+	private U lastModifiedBy;
 
 	@Column(name = "is_deleted")
 	private int isDeleted;
-
+	
 	public Date getCreatedDate() {
 		return createdDate;
 	}

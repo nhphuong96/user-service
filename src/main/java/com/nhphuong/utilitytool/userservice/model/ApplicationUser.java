@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name = "application_user")
 @JsonIgnoreProperties(value = { "roles" })
-public class ApplicationUser extends BaseDAO implements Serializable {
+public class ApplicationUser extends Auditable<String> implements Serializable {
 
 	/**
 	 * 
@@ -27,7 +28,7 @@ public class ApplicationUser extends BaseDAO implements Serializable {
 	private static final long serialVersionUID = 8701388594958862573L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "appl_user_key", nullable = false)
 	private Long userKey;
 
@@ -52,7 +53,7 @@ public class ApplicationUser extends BaseDAO implements Serializable {
 	@Column(name = "is_locked")
 	private int isLocked;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "application_user_role", joinColumns = @JoinColumn(name = "appl_user_key", referencedColumnName = "appl_user_key"), inverseJoinColumns = @JoinColumn(name = "appl_role_key", referencedColumnName = "appl_role_key"))
 	private Set<ApplicationRole> roles;
 

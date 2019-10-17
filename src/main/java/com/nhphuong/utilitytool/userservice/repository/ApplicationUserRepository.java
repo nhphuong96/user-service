@@ -6,4 +6,5 @@ import com.nhphuong.utilitytool.userservice.model.ApplicationUser;
 
 public interface ApplicationUserRepository extends CrudRepository<ApplicationUser, Long>{
 	public ApplicationUser findByUsername(String username);
+	public boolean existsByUsername(String username);
 }

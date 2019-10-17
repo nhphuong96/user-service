@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,19 +14,19 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "application_role")
-public class ApplicationRole extends BaseDAO implements Serializable {
+public class ApplicationRole extends Auditable<String> implements Serializable {
 
 	private static final long serialVersionUID = 1792728487354177830L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "appl_role_key")
 	private Long roleKey;
 
 	@Column(name = "appl_role_id")
 	private String roleId;
 
-	@ManyToMany(mappedBy = "roles")
+	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
 	private Set<ApplicationUser> users;
 
 	public Long getRoleKey() {
